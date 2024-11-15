@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Processing Example</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Обработка изображений</h1>
+    <input type="file" id="imageUpload" accept="image/*">
+    <div class="containers">
+
+        <div class="canvas-container">
+            <label for="originalCanvas">Оригинальное изображение</label>
+            <canvas id="originalCanvas" width="300" height="300"></canvas>
+        </div>
+        <div class="canvas-container">
+            <label for="smoothedCanvas">Сглаженное изображение</label>
+            <canvas id="smoothedCanvas" width="300" height="300"></canvas>
+        </div>
+    </div>
+
+    <div class="containers">
+        <div class="canvas-container">
+            <label for="linearContrastRGBCanvas">Линейное контрастирование (RGB)</label>
+            <canvas id="linearContrastRGBCanvas" width="300" height="300"></canvas>
+        </div>
+        <div class="canvas-container">
+            <label for="equalizedRGBCanvas">Эквализация гистограммы (RGB)</label>
+            <canvas id="equalizedRGBCanvas" width="300" height="300"></canvas>
+        </div>
+    </div>
+
+    <div class="containers">
+        <div class="canvas-container">
+            <label for="equalizedHSVCanvas">Эквализация гистограммы (HSV)</label>
+            <canvas id="equalizedHSVCanvas" width="300" height="300"></canvas>
+        </div>
+    </div>
+
+
+    <script src="opencv.js" type="text/javascript"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>
+
