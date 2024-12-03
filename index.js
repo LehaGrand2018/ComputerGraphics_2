@@ -44,14 +44,34 @@ const processImage = (originalCanvas) => {
   cv.threshold(gray, binary, 128, 255, cv.THRESH_BINARY);
   displayResult(binary, "binaryCanvas");
 
+  // Устранение шумов на полутоновом изображении
+  const denoisedGray = new cv.Mat();
+  cv.medianBlur(gray, denoisedGray, 3); // Медианный фильтр
+  displayResult(denoisedGray, "denoisedGrayCanvas");
+
+  // Выделение границ для полутонового изображения
+  const edgesGray = new cv.Mat();
+  cv.Canny(denoisedGray, edgesGray, 50, 150, 3, false);
+  displayResult(edgesGray, "edgesGrayCanvas");
+
+  // Устранение шумов на бинарном изображении
+  const denoisedBinary = new cv.Mat();
+  cv.medianBlur(binary, denoisedBinary, 3); // Медианный фильтр
+  displayResult(denoisedBinary, "denoisedBinaryCanvas");
+
+  // Выделение границ для бинарного изображения
+  const edgesBinary = new cv.Mat();
+  cv.Canny(denoisedBinary, edgesBinary, 50, 150, 3, false);
+  displayResult(edgesBinary, "edgesBinaryCanvas");
+
   // Построение гистограммы
   drawHistogram(gray, "histogramCanvas");
-  drawColorHistograms(src, "histogramCanvasColors")
+  drawColorHistograms(src, "histogramCanvasColors");
 };
 
 const drawHistogram = (gray, canvasId) => {
   const canvas = document.getElementById(canvasId);
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
 
   // Расчет гистограммы
   const histSize = 256;
@@ -72,21 +92,21 @@ const drawHistogram = (gray, canvasId) => {
 
   // Очистка canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = '#e3e3e3';
+  ctx.fillStyle = "#e3e3e3";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // Отрисовка гистограммы
-  ctx.strokeStyle = 'black';
+  ctx.strokeStyle = "black";
   ctx.beginPath();
 
   const binWidth = canvas.width / histSize;
 
   for (let i = 0; i < histSize; i++) {
-      const value = normalizedHist.data32F[i];
-      const x = i * binWidth;
-      const y = canvas.height - value;
-      ctx.moveTo(x, canvas.height);
-      ctx.lineTo(x, y);
+    const value = normalizedHist.data32F[i];
+    const x = i * binWidth;
+    const y = canvas.height - value;
+    ctx.moveTo(x, canvas.height);
+    ctx.lineTo(x, y);
   }
 
   ctx.stroke();
@@ -100,10 +120,10 @@ const drawHistogram = (gray, canvasId) => {
 
 const drawColorHistograms = (src, canvasId) => {
   const canvas = document.getElementById(canvasId);
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
 
   // Увеличиваем размер гистограммы для большей детализации
-  const histSize = 512; // Используем 512 уровней яркости для более детализированного представления
+  const histSize = 256;
   const histR = new cv.Mat();
   const histG = new cv.Mat();
   const histB = new cv.Mat();
@@ -129,54 +149,54 @@ const drawColorHistograms = (src, canvasId) => {
 
   // Очистка canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = '#e3e3e3';
+  ctx.fillStyle = "#e3e3e3";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // Отрисовка гистограммы для каждого канала с плавными линиями
   const binWidth = canvas.width / histSize;
 
   // Отрисовка красного канала (с плавной линией)
-  ctx.strokeStyle = 'red';
+  ctx.strokeStyle = "red";
   ctx.lineWidth = 1; // Тонкая линия для плавности
   ctx.beginPath();
   for (let i = 0; i < histSize; i++) {
-      const value = normalizedHistR.data32F[i];
-      const x = i * binWidth;
-      const y = canvas.height - value;
-      if (i === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y); // Линия между точками
+    const value = normalizedHistR.data32F[i];
+    const x = i * binWidth;
+    const y = canvas.height - value;
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y); // Линия между точками
   }
   ctx.stroke();
 
   // Отрисовка зеленого канала
-  ctx.strokeStyle = 'green';
+  ctx.strokeStyle = "green";
   ctx.beginPath();
   for (let i = 0; i < histSize; i++) {
-      const value = normalizedHistG.data32F[i];
-      const x = i * binWidth;
-      const y = canvas.height - value;
-      if (i === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
+    const value = normalizedHistG.data32F[i];
+    const x = i * binWidth;
+    const y = canvas.height - value;
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
   }
   ctx.stroke();
 
   // Отрисовка синего канала
-  ctx.strokeStyle = 'blue';
+  ctx.strokeStyle = "blue";
   ctx.beginPath();
   for (let i = 0; i < histSize; i++) {
-      const value = normalizedHistB.data32F[i];
-      const x = i * binWidth;
-      const y = canvas.height - value;
-      if (i === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
+    const value = normalizedHistB.data32F[i];
+    const x = i * binWidth;
+    const y = canvas.height - value;
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
   }
   ctx.stroke();
 
   // Обновление масштаба канвы с учетом изменения размера
-  window.addEventListener('resize', () => {
-    canvas.width = window.innerWidth * 0.8;  // Масштабируем канвас относительно окна
+  window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth * 0.8; // Масштабируем канвас относительно окна
     canvas.height = window.innerHeight * 0.4;
-    drawResponsiveColorHistograms(src, canvasId);  // Перерисовываем гистограмму
+    drawResponsiveColorHistograms(src, canvasId); // Перерисовываем гистограмму
   });
 
   // Очистка памяти

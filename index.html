@@ -40,18 +40,6 @@
             <canvas id="equalizedHSVCanvas" width="300" height="300"></canvas>
         </div>
     </div>
-
-    <div class="containers">
-        <div class="canvas-container">
-            <label for="grayscaleCanvas">Полутоновое изображение</label>
-            <canvas id="grayscaleCanvas" width="300" height="300"></canvas>
-        </div>
-        <div class="canvas-container">
-            <label for="binaryCanvas">Бинарное изображение</label>
-            <canvas id="binaryCanvas" width="300" height="300"></canvas>
-        </div>
-    </div>
-    
     <div class="containers">
         <div class="canvas-container">
             <label for="histogramCanvas">Гистограмма яркости</label>
@@ -62,12 +50,39 @@
             <canvas id="histogramCanvasColors" width="300" height="150"></canvas>
         </div>
     </div>
-    
+    <div class="containers">
+        <div class="canvas-container">
+            <label for="grayscaleCanvas">Полутоновое изображение</label>
+            <canvas id="grayscaleCanvas" width="300" height="300"></canvas>
+        </div>
+        <div class="canvas-container">
+            <label for="binaryCanvas">Бинарное изображение</label>
+            <canvas id="binaryCanvas" width="300" height="300"></canvas>
+        </div>
+    </div>
+    <div class="containers">
+        <div class="canvas-container">
+            <label for="denoisedGrayCanvas">Полутоновое изображение с подавлением шумов</label>
+            <canvas id="denoisedGrayCanvas" width="300" height="300"></canvas>
+        </div>
+        <div class="canvas-container">
+            <label for="denoisedBinaryCanvas">Бинарное изображение с подавлением шумов</label>
+            <canvas id="denoisedBinaryCanvas" width="300" height="300"></canvas>
+        </div>
 
-
+    </div>
+    <div class="containers">
+        <div class="canvas-container">
+            <label for="edgesGrayCanvas">Границы объектов (полутоновое)</label>
+            <canvas id="edgesGrayCanvas" width="300" height="300"></canvas>
+        </div>
+        <div class="canvas-container">
+            <label for="edgesBinaryCanvas">Границы объектов (бинарное)</label>
+            <canvas id="edgesBinaryCanvas" width="300" height="300"></canvas>
+        </div>
+    </div>
     <script src="opencv.js" type="text/javascript"></script>
     <script src="index.js"></script>
 </body>
 
 </html>
-
